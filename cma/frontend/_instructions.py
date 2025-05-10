@@ -58,3 +58,7 @@ class LOADC(Instruction):
 
 class JMP(Instruction):
     target: str
+
+
+class HALT(Instruction):
+    pass

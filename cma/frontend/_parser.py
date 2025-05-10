@@ -42,4 +42,5 @@ _parser = lark.Lark.open(
 
 
 def parse(text: str) -> list[Instruction]:
+    # TODO: catch and report parser errors
     return typing.cast(list[Instruction], _parser.parse(text + '\n'))
