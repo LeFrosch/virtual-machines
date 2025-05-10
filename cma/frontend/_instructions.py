@@ -62,3 +62,15 @@ class JMP(Instruction):
 
 class HALT(Instruction):
     pass
+
+
+class LEQ(Instruction):
+    pass
+
+
+class EQL(Instruction):
+    pass
+
+
+class GEQ(Instruction):
+    pass

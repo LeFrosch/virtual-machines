@@ -11,6 +11,8 @@ def built_label_table(code: list[instructions.Instruction]) -> dict[str, int]:
 
     return table
 
+def bool_to_int(value: bool) -> int:
+    return 1 if value else 0
 
 class Interpreter:
     def __init__(self, code: list[instructions.Instruction]):
@@ -47,3 +49,15 @@ class Interpreter:
             case instructions.JMP(target=target):
                 # TODO: report error for unknown label
                 self._pc = self._labels[target]
+
+            case instructions.LEQ():
+                self._stack[self._sp - 2] = bool_to_int(self._stack[self._sp - 2] <= self._stack[self._sp - 1])
+                self._sp -= 1
+
+            case instructions.EQL():
+                self._stack[self._sp - 2] = bool_to_int(self._stack[self._sp - 2] == self._stack[self._sp - 1])
+                self._sp -= 1
+
+            case instructions.GEQ():
+                self._stack[self._sp - 2] = bool_to_int(self._stack[self._sp - 2] >= self._stack[self._sp - 1])
+                self._sp -= 1
