@@ -1,0 +1,17 @@
+%import common (WS, NEWLINE, INT, SH_COMMENT)
+
+%ignore WS
+%ignore SH_COMMENT
+
+IDENTIFIER: ("a".."z" | "A".."Z") ("a".."z" | "A".."Z" | "0".."9")*
+
+label: IDENTIFIER ":"
+
+operand: INT   -> operand_int
+  | IDENTIFIER -> operand_ref
+
+instruction: [label] IDENTIFIER [operand] NEWLINE
+
+line: instruction | NEWLINE
+
+start: line*

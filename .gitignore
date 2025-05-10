@@ -1,0 +1,6 @@
+# pycharm directory
+.idea
+
+# python directories
+.venv
+__pycache__

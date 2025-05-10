@@ -1,0 +1,11 @@
+[project]
+name = "virtual_machines"
+authors = [{ name = "Daniel Brauner", email = "daniel.brauner@tum.de" }]
+license-files = { paths = ["LICENSE"] }
+requires-python = ">=3.12"
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.format]
+quote-style = "single"
