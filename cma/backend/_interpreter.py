@@ -11,8 +11,10 @@ def built_label_table(code: list[instructions.Instruction]) -> dict[str, int]:
 
     return table
 
+
 def bool_to_int(value: bool) -> int:
     return 1 if value else 0
+
 
 class Interpreter:
     def __init__(self, code: list[instructions.Instruction]):
@@ -43,8 +45,23 @@ class Interpreter:
                 self._sp += 1
 
             case instructions.ADD():
-                self._stack[self._sp - 1] += self._stack[self._sp]
+                self._stack[self._sp - 2] += self._stack[self._sp - 1]
                 self._sp -= 1
+
+            case instructions.MUL():
+                self._stack[self._sp - 2] *= self._stack[self._sp - 1]
+                self._sp -= 1
+
+            case instructions.SUB():
+                self._stack[self._sp - 2] -= self._stack[self._sp - 1]
+                self._sp -= 1
+
+            case instructions.DIV():
+                self._stack[self._sp - 2] //= self._stack[self._sp - 1]  # Using integer division
+                self._sp -= 1
+
+            case instructions.NEG():
+                self._stack[self._sp - 1] = -self._stack[self._sp - 1]
 
             case instructions.JMP(target=target):
                 # TODO: report error for unknown label

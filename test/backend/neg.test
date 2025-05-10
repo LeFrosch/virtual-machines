@@ -1,0 +1,7 @@
+# INPUT
+LOADC 7
+NEG
+HALT
+
+# OUTPUT
+00: -7

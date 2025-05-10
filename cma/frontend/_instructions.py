@@ -52,6 +52,10 @@ class ADD(Instruction):
     pass
 
 
+class MUL(Instruction):
+    pass
+
+
 class LOADC(Instruction):
     value: int
 
@@ -73,4 +77,16 @@ class EQL(Instruction):
 
 
 class GEQ(Instruction):
+    pass
+
+
+class SUB(Instruction):
+    pass
+
+
+class DIV(Instruction):
+    pass
+
+
+class NEG(Instruction):
     pass
