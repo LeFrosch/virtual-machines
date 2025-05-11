@@ -90,3 +90,23 @@ class DIV(Instruction):
 
 class NEG(Instruction):
     pass
+
+
+class ALLOC(Instruction):
+    size: int
+
+
+class DUP(Instruction):
+    pass
+
+
+class POP(Instruction):
+    pass
+
+
+class STORE(Instruction):
+    pass
+
+
+class LOAD(Instruction):
+    pass

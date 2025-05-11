@@ -1,0 +1,10 @@
+# INPUT
+ALLOC 3
+LOADC 4
+HALT
+
+# OUTPUT
+00: 0
+01: 0
+02: 0
+03: 4

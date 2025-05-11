@@ -1,0 +1,8 @@
+# INPUT
+LOADC 3
+DUP
+HALT
+
+# OUTPUT
+00: 3
+01: 3

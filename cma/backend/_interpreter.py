@@ -78,3 +78,22 @@ class Interpreter:
             case instructions.GEQ():
                 self._stack[self._sp - 2] = bool_to_int(self._stack[self._sp - 2] >= self._stack[self._sp - 1])
                 self._sp -= 1
+
+            case instructions.ALLOC(size=size):
+                self._sp += size
+
+            case instructions.DUP():
+                self._stack[self._sp] = self._stack[self._sp - 1]
+                self._sp += 1
+
+            case instructions.POP():
+                self._sp -= 1
+
+            case instructions.STORE():
+                # TODO: check for read from not allocated space
+                self._stack[self._stack[self._sp - 1]] = self._stack[self._sp - 2]
+                self._sp -= 1
+
+            case instructions.LOAD():
+                # TODO: check for write to not allocated space
+                self._stack[self._sp - 1] = self._stack[self._stack[self._sp - 1]]
