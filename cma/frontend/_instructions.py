@@ -60,8 +60,16 @@ class LOADC(Instruction):
     value: int
 
 
-class JMP(Instruction):
+class JUMP(Instruction):
     target: str
+
+
+class JUMPZ(Instruction):
+    target: str
+
+
+class JUMPI(Instruction):
+    table: int
 
 
 class HALT(Instruction):

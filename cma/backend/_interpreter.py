@@ -63,9 +63,20 @@ class Interpreter:
             case instructions.NEG():
                 self._stack[self._sp - 1] = -self._stack[self._sp - 1]
 
-            case instructions.JMP(target=target):
+            case instructions.JUMP(target=target):
                 # TODO: report error for unknown label
                 self._pc = self._labels[target]
+
+            case instructions.JUMPZ(target=target):
+                # TODO: report error for unknown label
+                if self._stack[self._sp - 1] == 0:
+                    self._pc = self._labels[target]
+                self._sp -= 1
+
+            case instructions.JUMPI(table=table):
+                # TODO: check that destination is valid
+                self._pc = table + self._stack[self._sp - 1]
+                self._sp -= 1
 
             case instructions.LEQ():
                 self._stack[self._sp - 2] = bool_to_int(self._stack[self._sp - 2] <= self._stack[self._sp - 1])
