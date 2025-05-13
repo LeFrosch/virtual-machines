@@ -27,11 +27,11 @@ class Interpreter:
 
     @property
     def stack(self) -> list[int]:
-        return self._mem[:self._sp]
+        return self._mem[: self._sp]
 
     @property
     def heap(self) -> list[int]:
-        return self._mem[self._np:]
+        return self._mem[self._np :]
 
     def execute(self):
         while True:
@@ -102,17 +102,24 @@ class Interpreter:
                 self._mem[self._sp] = self._mem[self._sp - 1]
                 self._sp += 1
 
-            case instructions.POP():
-                self._sp -= 1
+            case instructions.POP(count=k):
+                self._sp -= k
 
-            case instructions.STORE():
+            case instructions.STORE(size=k):
+                dst = self._mem[self._sp - 1]
+                src = self._sp - 1 - k
+
                 # TODO: check for read from not allocated space
-                self._mem[self._mem[self._sp - 1]] = self._mem[self._sp - 2]
+                self._mem[dst : dst + k] = self._mem[src : src + k]
                 self._sp -= 1
 
-            case instructions.LOAD():
+            case instructions.LOAD(size=k):
+                dst = self._sp - 1
+                src = self._mem[self._sp - 1]
+
                 # TODO: check for write to not allocated space
-                self._mem[self._sp - 1] = self._mem[self._mem[self._sp - 1]]
+                self._mem[dst : dst + k] = self._mem[src : src + k]
+                self._sp += k - 1
 
             case instructions.NEW():
                 # NOTE: no extreme pointer handling

@@ -1,3 +1,5 @@
+from common import first
+
 _instruction_map = {}
 
 
@@ -12,31 +14,32 @@ class InstructionMeta(type):
 
 
 class Instruction(metaclass=InstructionMeta):
-    def __init__(self, labels=None, arguments=None):
+    def __init__(self, labels=None, argument=None):
         self.labels = labels or []
 
-        parameters = self.__class__.__annotations__
+        parameter = first(self.__class__.__annotations__.items())
+        if parameter is None:
+            return
 
-        if len(parameters) != len(arguments or []):
-            raise TypeError(f'expected {len(parameters)} operands, got: {len(arguments)}')
+        name, t = parameter
+        value = argument if argument is not None else getattr(self, name, None)
 
-        for (name, t), value in zip(self.__class__.__annotations__.items(), arguments or []):
-            if not isinstance(value, t):
-                raise TypeError(f'operand {name} is of type {t}, got: {value}')
+        if not isinstance(value, t):
+            raise TypeError(f'instruction {self.opcode} operand {name} is of type {t}, got: {value}')
 
-            setattr(self, name, value)
+        setattr(self, name, value)
 
     @property
     def opcode(self):
         return self.__class__.__name__
 
     @classmethod
-    def create(cls, opcode: str, labels=None, arguments=None):
+    def create(cls, opcode: str, labels=None, argument=None):
         if opcode not in _instruction_map:
             raise KeyError(f'unknown opcode: {opcode}')
 
         clazz = _instruction_map[opcode]
-        return clazz(labels=labels, arguments=arguments)
+        return clazz(labels=labels, argument=argument)
 
     def __repr__(self):
         parameters = self.__class__.__annotations__
@@ -109,15 +112,15 @@ class DUP(Instruction):
 
 
 class POP(Instruction):
-    pass
+    count: int = 1
 
 
 class STORE(Instruction):
-    pass
+    size: int = 1
 
 
 class LOAD(Instruction):
-    pass
+    size: int = 1
 
 
 class NEW(Instruction):

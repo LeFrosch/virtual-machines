@@ -19,7 +19,7 @@ class Transformer(lark.Transformer):
         return Instruction.create(
             opcode=str(children[1]),
             labels=to_list(children[0]),
-            arguments=to_list(children[2]),
+            argument=children[2],
         )
 
     def operand_int(self, children):
