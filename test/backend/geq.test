@@ -10,7 +10,7 @@ LOADC 1
 GEQ
 HALT
 
-# OUTPUT
+# STACK
 00: 0
 01: 1
 02: 1

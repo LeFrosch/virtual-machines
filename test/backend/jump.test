@@ -6,5 +6,5 @@ END:
 LOADC 1
 HALT
 
-# OUTPUT
+# STACK
 00: 1

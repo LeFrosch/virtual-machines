@@ -8,5 +8,5 @@ LOADC 3
 
 HALT
 
-# OUTPUT
+# STACK
 00: 3

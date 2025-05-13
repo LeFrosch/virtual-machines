@@ -5,6 +5,6 @@ LOADC 3
 POP
 HALT
 
-# OUTPUT
+# STACK
 00: 1
 01: 2

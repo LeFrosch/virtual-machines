@@ -13,6 +13,6 @@ LOADC 3
 B:
 HALT
 
-# OUTPUT
+# STACK
 00: 1
 01: 3

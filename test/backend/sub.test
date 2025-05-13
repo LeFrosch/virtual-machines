@@ -4,5 +4,5 @@ LOADC 3
 SUB
 HALT
 
-# OUTPUT
+# STACK
 00: 7

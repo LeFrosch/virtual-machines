@@ -3,7 +3,7 @@ ALLOC 3
 LOADC 4
 HALT
 
-# OUTPUT
+# STACK
 00: 0
 01: 0
 02: 0

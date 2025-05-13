@@ -118,3 +118,11 @@ class STORE(Instruction):
 
 class LOAD(Instruction):
     pass
+
+
+class NEW(Instruction):
+    pass
+
+
+class FREE(Instruction):
+    pass

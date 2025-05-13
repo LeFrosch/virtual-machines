@@ -5,7 +5,7 @@ LOADC 0
 STORE
 HALT
 
-# OUTPUT
+# STACK
 00: 69
 01: 0
 02: 0

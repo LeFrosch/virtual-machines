@@ -19,14 +19,19 @@ def bool_to_int(value: bool) -> int:
 class Interpreter:
     def __init__(self, code: list[instructions.Instruction]):
         self._code = code
-        self._stack = [0] * 256
+        self._mem = [0] * 256
         self._sp = 0
         self._pc = 0
+        self._np = 256
         self._labels = built_label_table(code)
 
     @property
-    def stack(self):
-        return self._stack[: self._sp]
+    def stack(self) -> list[int]:
+        return self._mem[:self._sp]
+
+    @property
+    def heap(self) -> list[int]:
+        return self._mem[self._np:]
 
     def execute(self):
         while True:
@@ -41,27 +46,27 @@ class Interpreter:
     def _execute(self, instruction: instructions.Instruction):
         match instruction:
             case instructions.LOADC(value=value):
-                self._stack[self._sp] = value
+                self._mem[self._sp] = value
                 self._sp += 1
 
             case instructions.ADD():
-                self._stack[self._sp - 2] += self._stack[self._sp - 1]
+                self._mem[self._sp - 2] += self._mem[self._sp - 1]
                 self._sp -= 1
 
             case instructions.MUL():
-                self._stack[self._sp - 2] *= self._stack[self._sp - 1]
+                self._mem[self._sp - 2] *= self._mem[self._sp - 1]
                 self._sp -= 1
 
             case instructions.SUB():
-                self._stack[self._sp - 2] -= self._stack[self._sp - 1]
+                self._mem[self._sp - 2] -= self._mem[self._sp - 1]
                 self._sp -= 1
 
             case instructions.DIV():
-                self._stack[self._sp - 2] //= self._stack[self._sp - 1]  # Using integer division
+                self._mem[self._sp - 2] //= self._mem[self._sp - 1]  # Using integer division
                 self._sp -= 1
 
             case instructions.NEG():
-                self._stack[self._sp - 1] = -self._stack[self._sp - 1]
+                self._mem[self._sp - 1] = -self._mem[self._sp - 1]
 
             case instructions.JUMP(target=target):
                 # TODO: report error for unknown label
@@ -69,32 +74,32 @@ class Interpreter:
 
             case instructions.JUMPZ(target=target):
                 # TODO: report error for unknown label
-                if self._stack[self._sp - 1] == 0:
+                if self._mem[self._sp - 1] == 0:
                     self._pc = self._labels[target]
                 self._sp -= 1
 
             case instructions.JUMPI(table=table):
                 # TODO: check that destination is valid
-                self._pc = table + self._stack[self._sp - 1]
+                self._pc = table + self._mem[self._sp - 1]
                 self._sp -= 1
 
             case instructions.LEQ():
-                self._stack[self._sp - 2] = bool_to_int(self._stack[self._sp - 2] <= self._stack[self._sp - 1])
+                self._mem[self._sp - 2] = bool_to_int(self._mem[self._sp - 2] <= self._mem[self._sp - 1])
                 self._sp -= 1
 
             case instructions.EQL():
-                self._stack[self._sp - 2] = bool_to_int(self._stack[self._sp - 2] == self._stack[self._sp - 1])
+                self._mem[self._sp - 2] = bool_to_int(self._mem[self._sp - 2] == self._mem[self._sp - 1])
                 self._sp -= 1
 
             case instructions.GEQ():
-                self._stack[self._sp - 2] = bool_to_int(self._stack[self._sp - 2] >= self._stack[self._sp - 1])
+                self._mem[self._sp - 2] = bool_to_int(self._mem[self._sp - 2] >= self._mem[self._sp - 1])
                 self._sp -= 1
 
             case instructions.ALLOC(size=size):
                 self._sp += size
 
             case instructions.DUP():
-                self._stack[self._sp] = self._stack[self._sp - 1]
+                self._mem[self._sp] = self._mem[self._sp - 1]
                 self._sp += 1
 
             case instructions.POP():
@@ -102,9 +107,18 @@ class Interpreter:
 
             case instructions.STORE():
                 # TODO: check for read from not allocated space
-                self._stack[self._stack[self._sp - 1]] = self._stack[self._sp - 2]
+                self._mem[self._mem[self._sp - 1]] = self._mem[self._sp - 2]
                 self._sp -= 1
 
             case instructions.LOAD():
                 # TODO: check for write to not allocated space
-                self._stack[self._sp - 1] = self._stack[self._stack[self._sp - 1]]
+                self._mem[self._sp - 1] = self._mem[self._mem[self._sp - 1]]
+
+            case instructions.NEW():
+                # NOTE: no extreme pointer handling
+                # TODO: check for failed allocation
+                self._np -= self._mem[self._sp - 1]
+                self._mem[self._sp - 1] = self._np
+
+            case instructions.FREE():
+                pass

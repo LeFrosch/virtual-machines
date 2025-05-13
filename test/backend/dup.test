@@ -3,6 +3,6 @@ LOADC 3
 DUP
 HALT
 
-# OUTPUT
+# STACK
 00: 3
 01: 3

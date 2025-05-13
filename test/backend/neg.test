@@ -3,5 +3,5 @@ LOADC 7
 NEG
 HALT
 
-# OUTPUT
+# STACK
 00: -7

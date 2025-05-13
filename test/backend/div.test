@@ -4,5 +4,5 @@ LOADC 4
 DIV
 HALT
 
-# OUTPUT
+# STACK
 00: 5

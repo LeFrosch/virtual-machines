@@ -4,5 +4,5 @@ LOADC 2
 ADD
 HALT
 
-# OUTPUT
+# STACK
 00: 3
